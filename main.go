@@ -10,18 +10,27 @@ import (
 )
 
 const Sheet = "驻地网围栏(眉山1)"
+const File = "驻地网围栏(眉山1).xlsx"
 
 func main() {
-	fmt.Println(coordtransform.BD09toWGS84(116.404, 39.915))
-	f, _ := excelize.OpenFile(Sheet)
+	Init()
+}
+
+func Init() {
+	f, _ := excelize.OpenFile(File)
 	defer func() {
-		if err := f.SaveAs(Sheet); err != nil {
+		if err := f.SaveAs(File); err != nil {
 			fmt.Println(err)
 		}
 		if err := f.Close(); err != nil {
 			fmt.Println(err)
 		}
 	}()
+
+	Start(f)
+}
+
+func Start(f *excelize.File) {
 	cols, err := f.GetCols(Sheet)
 	if err != nil {
 		fmt.Println(err)
@@ -47,7 +56,6 @@ func main() {
 			res += strconv.FormatFloat(lon_wgs84, 'f', 6, 64) + "," + strconv.FormatFloat(lat_wgs84, 'f', 6, 64) + "; "
 		}
 		cell_idx, _ := excelize.CoordinatesToCellName(8, idx+2)
-		println(res)
 		f.SetCellValue(Sheet, cell_idx, res)
 	}
 	f.SetCellValue(Sheet, "H1", "WGS84边框坐标")
