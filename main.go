@@ -13,9 +13,9 @@ const Sheet = "驻地网围栏(眉山1)"
 
 func main() {
 	fmt.Println(coordtransform.BD09toWGS84(116.404, 39.915))
-	f, _ := excelize.OpenFile("source.xlsx")
+	f, _ := excelize.OpenFile(Sheet)
 	defer func() {
-		if err := f.SaveAs("source.xlsx"); err != nil {
+		if err := f.SaveAs(Sheet); err != nil {
 			fmt.Println(err)
 		}
 		if err := f.Close(); err != nil {
